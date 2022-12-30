@@ -2,9 +2,10 @@ package projectdaojdbc.model.dao;
 
 import java.util.List;
 
+import projectdaojdbc.model.entities.Department;
 import projectdaojdbc.model.entities.Seller;
 
-public interface ProductDao {
+public interface SellerDao {
 
 	void insert(Seller seller);
 
@@ -15,4 +16,6 @@ public interface ProductDao {
 	Seller findById(Integer id);
 
 	List<Seller> findAll();
+	
+	List<Seller> findByDepartment(Department department);
 }
