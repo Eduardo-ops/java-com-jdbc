@@ -39,9 +39,18 @@ public class Program {
 				2600.0, departmentTest4);
 		sellerDao.insert(sellerTest4);
 
-		System.out.println("********** TEST 3: Seller Update **********");
+		System.out.println("********** TEST 5: Seller Update **********");
+		Seller sellerTest5 = sellerDao.findById(17);
+		sellerTest5.setName("Carlos Henrique Cardoso");
+		sellerTest5.setEmail("carlos.cardoso@hotmail.com");
+		sellerTest5.setBaseSalary(4200.0);
+		sellerDao.update(sellerTest5);
+		System.out.println("Update completed!!!");
 
-		System.out.println("********** TEST 3: Seller Delete **********");
+		System.out.println("********** TEST 6: Seller Delete **********");
+		Seller sellerTest6 = sellerDao.findById(19);
+		int id = 20;
+		sellerDao.deleteById(id);
 	}
 
 }
