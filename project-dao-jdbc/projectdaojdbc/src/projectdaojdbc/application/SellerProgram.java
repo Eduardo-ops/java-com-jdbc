@@ -8,7 +8,7 @@ import projectdaojdbc.model.dao.SellerDao;
 import projectdaojdbc.model.entities.Department;
 import projectdaojdbc.model.entities.Seller;
 
-public class Program {
+public class SellerProgram {
 
 	public static void main(String[] args) {
 
