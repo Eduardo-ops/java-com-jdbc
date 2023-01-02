@@ -32,7 +32,8 @@ public class SellerDaoJDBC implements SellerDao {
 			pst = connection.prepareStatement(
 					"INSERT INTO SELLER "
 					+ "(NAME, EMAIL, BIRTHDATE, BASESALARY, DEPARTMENTID) " 
-					+ "VALUES " + "(?, ?, ?, ?, ?)",
+					+ "VALUES " 
+					+ "(?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 
 			pst.setString(1, seller.getName());
@@ -172,10 +173,16 @@ public class SellerDaoJDBC implements SellerDao {
 			rs = pst.executeQuery();
 
 			List<Seller> listSeller = new ArrayList<Seller>();
+			Map<Integer, Department> departmentMap = new HashMap<>();
 
-			// REVER LÓGICA, JÁ ESTÁ FUNCIONAL
 			while (rs.next()) {
-				Department department = instantiateDepartment(rs);
+				Department department = departmentMap.get(rs.getInt("DEPARTMENTID"));
+				
+				if (department == null) {
+					department = instantiateDepartment(rs);
+					departmentMap.put(rs.getInt("DEPARTMENTID"), department);
+				}
+				
 				Seller seller = instantiateSeller(rs, department);
 				listSeller.add(seller);
 			}
