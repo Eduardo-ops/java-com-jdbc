@@ -19,7 +19,7 @@ public class SellerProgram {
 		System.out.println("Result of find: \n" + sellerTest1);
 
 		System.out.println("********** TEST 2: Seller findByDepartment **********");
-		Department departmentTest2 = new Department(2, null);
+		Department departmentTest2 = new Department(3, null);
 		List<Seller> listSellerTest2 = sellerDao.findByDepartment(departmentTest2);
 
 		for (Seller sellerObj : listSellerTest2) {

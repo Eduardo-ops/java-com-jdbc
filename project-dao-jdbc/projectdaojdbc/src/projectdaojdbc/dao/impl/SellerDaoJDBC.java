@@ -200,6 +200,7 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public List<Seller> findByDepartment(Department department) {
+		List<Seller> listSeller = new ArrayList<Seller>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 
@@ -214,23 +215,22 @@ public class SellerDaoJDBC implements SellerDao {
 			pst.setInt(1, department.getId());
 
 			rs = pst.executeQuery();
-
-			List<Seller> listSeller = new ArrayList<Seller>();
-			Map<Integer, Department> map = new HashMap<>();
-
-			while (rs.next()) {
-				Department department2 = map.get(rs.getInt("DEPARTMENTID"));
-
-				if (department2 == null) {
-					department2 = instantiateDepartment(rs);
-					map.put(rs.getInt("DEPARTMENTID"), department2);
+			
+			if (rs.first()) {
+				Department department2 = instantiateDepartment(rs);
+				rs.beforeFirst();
+				
+				while (rs.next()) {
+					Seller seller = instantiateSeller(rs, department2);
+					listSeller.add(seller);
 				}
 
-				Seller seller = instantiateSeller(rs, department2);
-				listSeller.add(seller);
+				return listSeller;
 			}
-
-			return listSeller;
+			else {
+				System.out.println("Não foi encontrado nenhum dado com o departamento informado.");
+			}
+			
 		} 
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -239,6 +239,8 @@ public class SellerDaoJDBC implements SellerDao {
 			DB.closeStatement(pst);
 			DB.closeResultSet(rs);
 		}
+		
+		return listSeller;
 	}
 
 	private Department instantiateDepartment(ResultSet rs) throws SQLException {
@@ -258,5 +260,4 @@ public class SellerDaoJDBC implements SellerDao {
 		seller.setDepartment(department);
 		return seller;
 	}
-
 }
